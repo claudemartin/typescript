@@ -95,5 +95,19 @@ function conditional(bool: boolean, arg: string | number) {
 }
 ```
 
+### single-call-signature overload to the rescue
+
+We can still use the generic type information to define a _single-call-signature overload_, which will solve the problem:
+
+```ts
+function conditional<Bool extends boolean>(bool: Bool, arg: Bool extends true ? string : number): number;
+function conditional(bool: boolean, arg: string | number) {
+    if (bool) return Number(arg);
+    return arg;
+}
+```
+
+Just remember that TypeScript still doesn't check if the implementation strictly matches the available call signatures (see above). 
+
 This concludes my note on conditional type abuse.
 Hopefully, you now know when conditional types are a bad fit, and what you can do to achieve the desired behavior.
